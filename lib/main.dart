@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animations/animations.dart';
+import 'widgets/app_logo.dart';
 
 // Import all practical files
 import 'practical1_navigation.dart';
@@ -448,6 +449,8 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 25),
+                const AppLogo(size: 80.0, showText: false),
+                const SizedBox(height: 20),
                 Text(
                   'Flutter Practicals',
                   textAlign: TextAlign.center,
@@ -472,7 +475,7 @@ class HomePage extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.0,
                     mainAxisSpacing: 16.0,
-                    childAspectRatio: 0.7,
+                    childAspectRatio: 0.85,
                   ),
                   itemCount: practicals.length,
                   shrinkWrap: true,

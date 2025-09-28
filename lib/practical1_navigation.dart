@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../widgets/app_logo.dart';
 
 /// Practical 1: Multi-Screen Navigation
 /// Screens: Splash, Login, Dashboard, Profile
@@ -42,27 +43,37 @@ class _Practical1SplashScreenState extends State<Practical1SplashScreen> {
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.rocket_launch,
-              size: 100.0,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Launching Practical 1...',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const AnimatedAppLogo(size: 120.0, showText: true),
+              const SizedBox(height: 40.0),
+              Text(
+                'Launching Practical 1...',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            const SizedBox(height: 20.0),
-            CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          ],
+              const SizedBox(height: 30.0),
+              CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+                strokeWidth: 3.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
