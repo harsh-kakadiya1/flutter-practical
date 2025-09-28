@@ -383,19 +383,19 @@ class MyApp extends StatelessWidget {
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.scaled,
+              transitionType: SharedAxisTransitionType.horizontal,
             ),
             TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.scaled,
+              transitionType: SharedAxisTransitionType.horizontal,
             ),
             TargetPlatform.windows: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.scaled,
+              transitionType: SharedAxisTransitionType.horizontal,
             ),
             TargetPlatform.macOS: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.scaled,
+              transitionType: SharedAxisTransitionType.horizontal,
             ),
             TargetPlatform.linux: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.scaled,
+              transitionType: SharedAxisTransitionType.horizontal,
             ),
           },
         ),
@@ -475,20 +475,46 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                GridView.builder(
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16.0,
-                    mainAxisSpacing: 16.0,
-                    childAspectRatio: 0.85,
-                  ),
-                  itemCount: practicals.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    final Practical practical = practicals[index];
-                    return _PracticalGridCard(practical: practical);
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    // Adaptive grid based on screen width
+                    int crossAxisCount = 2;
+                    double childAspectRatio = 0.85;
+
+                    if (constraints.maxWidth > 1200) {
+                      // Large desktop screens
+                      crossAxisCount = 4;
+                      childAspectRatio = 0.9;
+                    } else if (constraints.maxWidth > 800) {
+                      // Tablets and small desktop
+                      crossAxisCount = 3;
+                      childAspectRatio = 0.88;
+                    } else if (constraints.maxWidth > 600) {
+                      // Large phones in landscape
+                      crossAxisCount = 2;
+                      childAspectRatio = 0.85;
+                    } else {
+                      // Regular phones
+                      crossAxisCount = 2;
+                      childAspectRatio = 0.85;
+                    }
+
+                    return GridView.builder(
+                      padding: EdgeInsets.zero,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 16.0,
+                        mainAxisSpacing: 16.0,
+                        childAspectRatio: childAspectRatio,
+                      ),
+                      itemCount: practicals.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        final Practical practical = practicals[index];
+                        return _PracticalGridCard(practical: practical);
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 32),
@@ -524,9 +550,26 @@ class _PracticalGridCard extends StatelessWidget {
         onTap: () {
           Navigator.push<void>(
             context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) =>
+            PageRouteBuilder<void>(
+              pageBuilder: (context, animation, secondaryAnimation) =>
                   PracticalDetailsPage(practical: practical),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+
+                    var tween = Tween(
+                      begin: begin,
+                      end: end,
+                    ).chain(CurveTween(curve: curve));
+
+                    return SlideTransition(
+                      position: animation.drive(tween),
+                      child: child,
+                    );
+                  },
+              transitionDuration: const Duration(milliseconds: 300),
             ),
           );
         },
@@ -581,9 +624,26 @@ class _PracticalGridCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.push<void>(
                       context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
+                      PageRouteBuilder<void>(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
                             PracticalDetailsPage(practical: practical),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0);
+                              const end = Offset.zero;
+                              const curve = Curves.easeInOut;
+
+                              var tween = Tween(
+                                begin: begin,
+                                end: end,
+                              ).chain(CurveTween(curve: curve));
+
+                              return SlideTransition(
+                                position: animation.drive(tween),
+                                child: child,
+                              );
+                            },
+                        transitionDuration: const Duration(milliseconds: 300),
                       ),
                     );
                   },

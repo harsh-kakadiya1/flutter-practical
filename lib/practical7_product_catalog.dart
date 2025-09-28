@@ -95,17 +95,43 @@ class Practical7ProductCatalogApp extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(16.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16.0,
-          mainAxisSpacing: 16.0,
-          childAspectRatio: 0.75,
-        ),
-        itemCount: _products.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _ProductCard(product: _products[index]);
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Adaptive grid based on screen width
+          int crossAxisCount = 2;
+          double childAspectRatio = 0.75;
+
+          if (constraints.maxWidth > 1200) {
+            // Large desktop screens
+            crossAxisCount = 4;
+            childAspectRatio = 0.8;
+          } else if (constraints.maxWidth > 800) {
+            // Tablets and small desktop
+            crossAxisCount = 3;
+            childAspectRatio = 0.75;
+          } else if (constraints.maxWidth > 600) {
+            // Large phones in landscape
+            crossAxisCount = 2;
+            childAspectRatio = 0.75;
+          } else {
+            // Regular phones
+            crossAxisCount = 2;
+            childAspectRatio = 0.75;
+          }
+
+          return GridView.builder(
+            padding: const EdgeInsets.all(16.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: childAspectRatio,
+            ),
+            itemCount: _products.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _ProductCard(product: _products[index]);
+            },
+          );
         },
       ),
     );

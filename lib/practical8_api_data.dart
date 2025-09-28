@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../widgets/loading_widget.dart';
 
 /// Practical 8: REST API Data Display (FutureBuilder)
 
@@ -69,26 +70,86 @@ class _Practical8ApiDataAppState extends State<Practical8ApiDataApp> {
         future: _posts,
         builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingWidget(
+              message: 'Loading posts...',
+              style: LoadingStyle.wave,
+              size: 60.0,
+            );
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.error_outline,
+                    size: 64.0,
+                    color: Colors.red.shade400,
+                  ),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Error: ${snapshot.error}',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.red.shade600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        _posts = _fetchPosts();
+                      });
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
           } else if (snapshot.hasData) {
             return ListView.builder(
+              padding: const EdgeInsets.all(8.0),
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
                 final Post post = snapshot.data![index];
-                return ListTile(
-                  title: Text(post.title),
-                  subtitle: Text(
-                    post.body,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: Text(
+                        '${index + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      post.title,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: Text(
+                      post.body,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    isThreeLine: true,
                   ),
                 );
               },
             );
           } else {
-            return const Center(child: Text('No data found'));
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.inbox, size: 64.0, color: Colors.grey),
+                  SizedBox(height: 16.0),
+                  Text('No data found'),
+                ],
+              ),
+            );
           }
         },
       ),
