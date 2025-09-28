@@ -21,51 +21,59 @@ class Product {
 const List<Product> _products = <Product>[
   Product(
     id: 1,
-    name: 'Product 1',
+    name: 'Wireless Headphones',
     price: 19.99,
-    imageUrl: 'https://picsum.photos/200/300?random=1',
+    imageUrl:
+        'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
   ),
   Product(
     id: 2,
-    name: 'Product 2',
+    name: 'Smart Watch',
     price: 29.99,
-    imageUrl: 'https://picsum.photos/200/300?random=2',
+    imageUrl:
+        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
   ),
   Product(
     id: 3,
-    name: 'Product 3',
+    name: 'Laptop Stand',
     price: 39.99,
-    imageUrl: 'https://picsum.photos/200/300?random=3',
+    imageUrl:
+        'https://images.unsplash.com/photo-1527864550417-7f91c4da4f4c?w=400&h=300&fit=crop',
   ),
   Product(
     id: 4,
-    name: 'Product 4',
+    name: 'Mechanical Keyboard',
     price: 49.99,
-    imageUrl: 'https://picsum.photos/200/300?random=4',
+    imageUrl:
+        'https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&h=300&fit=crop',
   ),
   Product(
     id: 5,
-    name: 'Product 5',
+    name: 'Gaming Mouse',
     price: 59.99,
-    imageUrl: 'https://picsum.photos/200/300?random=5',
+    imageUrl:
+        'https://images.unsplash.com/photo-1527864550417-7f91c4da4f4c?w=400&h=300&fit=crop',
   ),
   Product(
     id: 6,
-    name: 'Product 6',
+    name: 'Bluetooth Speaker',
     price: 69.99,
-    imageUrl: 'https://picsum.photos/200/300?random=6',
+    imageUrl:
+        'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop',
   ),
   Product(
     id: 7,
-    name: 'Product 7',
+    name: 'Phone Case',
     price: 79.99,
-    imageUrl: 'https://picsum.photos/200/300?random=7',
+    imageUrl:
+        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop',
   ),
   Product(
     id: 8,
-    name: 'Product 8',
+    name: 'Tablet Stand',
     price: 89.99,
-    imageUrl: 'https://picsum.photos/200/300?random=8',
+    imageUrl:
+        'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400&h=300&fit=crop',
   ),
 ];
 
@@ -122,7 +130,37 @@ class _ProductCard extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12.0),
               ),
-              child: Image.network(product.imageUrl, fit: BoxFit.cover),
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    color: Colors.grey.shade200,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                            : null,
+                        strokeWidth: 2.0,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey.shade200,
+                    child: const Center(
+                      child: Icon(
+                        Icons.image_not_supported,
+                        color: Colors.grey,
+                        size: 40,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Padding(
