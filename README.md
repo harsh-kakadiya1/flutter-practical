@@ -74,7 +74,7 @@ Before running this project, make sure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/flutter-practicals.git
+git clone https://github.com/harsh-kakadiya1/flutter-practicals.git
 cd flutter-practicals
 ```
 
@@ -263,9 +263,9 @@ This portfolio showcases practical implementations of Flutter development concep
 
 For questions or suggestions, please open an issue or contact:
 
-- **Email**: [your-email@example.com]
-- **GitHub**: [@yourusername]
-- **LinkedIn**: [Your LinkedIn Profile]
+- **Email**: [harshkakadiya128@gmail.com]
+- **GitHub**: [@harsh-kakadiya1]
+- **LinkedIn**: [harsh-kakadiya]
 
 ---
 
