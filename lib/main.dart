@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animations/animations.dart';
 import 'widgets/app_logo.dart';
+import 'pages/info_page.dart';
 
 // Import all practical files
 import 'practical1_navigation.dart';
@@ -433,7 +434,12 @@ class HomePage extends StatelessWidget {
                 size: 24,
               ),
               onPressed: () {
-                // Handle info button press
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const InfoPage(),
+                  ),
+                );
               },
             ),
           ),
