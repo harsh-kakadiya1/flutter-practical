@@ -44,7 +44,7 @@ class InfoPage extends StatelessWidget {
               context,
               'Developer Information',
               Icons.person,
-              'Developed by: 23AIML025 Harsh Kakadiya\n\nThis portfolio showcases practical implementations of Flutter development concepts learned through hands-on experience.',
+              'Developed by: 23AIML025\nHarsh Kakadiya\n\nThis portfolio showcases practical implementations of Flutter development concepts learned through hands-on experience.',
             ),
 
             const SizedBox(height: 20.0),
@@ -156,6 +156,7 @@ class InfoPage extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
             children: <Widget>[
@@ -165,11 +166,13 @@ class InfoPage extends StatelessWidget {
                 size: 24.0,
               ),
               const SizedBox(width: 12.0),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ],
@@ -181,6 +184,9 @@ class InfoPage extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
               height: 1.5,
             ),
+            textAlign: TextAlign.left,
+            softWrap: true,
+            overflow: TextOverflow.visible,
           ),
         ],
       ),

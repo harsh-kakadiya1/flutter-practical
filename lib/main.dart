@@ -484,19 +484,19 @@ class HomePage extends StatelessWidget {
                     if (constraints.maxWidth > 1200) {
                       // Large desktop screens
                       crossAxisCount = 4;
-                      childAspectRatio = 0.9;
+                      childAspectRatio = 0.75;
                     } else if (constraints.maxWidth > 800) {
                       // Tablets and small desktop
                       crossAxisCount = 3;
-                      childAspectRatio = 0.88;
+                      childAspectRatio = 0.7;
                     } else if (constraints.maxWidth > 600) {
                       // Large phones in landscape
                       crossAxisCount = 2;
-                      childAspectRatio = 0.85;
+                      childAspectRatio = 0.65;
                     } else {
                       // Regular phones
                       crossAxisCount = 2;
-                      childAspectRatio = 0.85;
+                      childAspectRatio = 0.6;
                     }
 
                     return GridView.builder(
@@ -599,22 +599,24 @@ class _PracticalGridCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'Practical ${practical.id}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.primary,
+                  fontSize: 18,
                 ),
               ),
               const SizedBox(height: 8),
               Expanded(
                 child: Text(
                   practical.name,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(
                       context,
-                    ).colorScheme.onSurface.withAlpha((255 * 0.7).round()),
-                    height: 1.3,
+                    ).colorScheme.onSurface.withAlpha((255 * 0.8).round()),
+                    height: 1.4,
+                    fontSize: 14,
                   ),
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -663,6 +665,7 @@ class _PracticalGridCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: practical.accentColor,
+                      fontSize: 13,
                     ),
                   ),
                 ),
